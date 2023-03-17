@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Roboto+Condensed&family=Space+Grotesk&display=swap');
+
+        body {
+            background-color: #35505e;
+        }
+
+        .contentHolder {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .titleHolder {
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            color: white;
+            height: 23vh;
+        }
+
+        .eventHolder {
+            display: flex;
+            justify-content: center;
+        }
+
+        .eventDialog {
+            display: none;
+
+        }
+
+        .eventDialog:target {
+            display: block;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-family: 'Roboto Condensed';
+            width: 55%;
+            margin: 75px auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #666;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+        }
+
+        .eventDialog p {
+            text-align: justify;
+            text-indent: 23px;
+        }
+
+        .monthsHolder {
+            overflow-y: hidden;
+            overflow-x: scroll;
+            width: 99vw;
+            display: flex;
+        }
+
+        .month {
+            font-family: 'IBM Plex Sans', sans-serif;
+            width: fit-content;
+            border: black solid 1px;
+            border-radius: 16px;
+            color: white;
+            margin: 10px;
+        }
+
+        .monthTitle {
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 20px;
+        }
+
+        table {
+            width: 600px;
+            background-color: transparent;
+            border-radius: 16px;
+            padding: 10px 10px;
+            font-size: 100%;
+        }
+
+        td {
+            width: 25px;
+            padding: 4px;
+            line-height: 40px;
+            border: 1px solid transparent;
+            margin: 10px 2px 0px;
+            text-align: center;
+        }
+
+        td:hover {
+            border: 1px solid white;
+            border-radius: 4px;
+        }
+
+        .event {
+            border: 1px solid white;
+            border-radius: 4px;
+        }
+
+        .event:hover {
+            background-color: white;
+            color: black;
+        }
+
+        td a {
+            all: unset;
+            cursor: pointer;
+        }
+
+        .otherMonth {
+            color: #6e6e6e;
+        }
+
+        th {
+            font-weight: normal;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #6e6e6e;
+        }
+
+        /* Backgrounds for each month */
+        .jan {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://c4.wallpaperflare.com/wallpaper/825/375/685/dota-2-wallpaper-preview.jpg') center no-repeat;
+        }
+
+        .feb {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://i.pinimg.com/550x/f9/71/f3/f971f371c391c3606339e2a0a13ef4db.jpg') center no-repeat;
+            background-size: 100%;
+        }
+
+        .mar {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6937343.jpg') center no-repeat;
+        }
+
+        .apr {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6937345.jpg') center no-repeat;
+        }
+
+        .may {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6937346.jpg') center no-repeat;
+        }
+
+        .jun {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6937392.jpg') center no-repeat;
+        }
+
+        .jul {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/5COoVWu.jpg') center no-repeat;
+        }
+
+        .aug {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6690197.jpg') center no-repeat;
+        }
+
+        .sep {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/DgwazAh.jpg') center no-repeat;
+        }
+
+        .oct {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/PuPFMtr.jpg') center no-repeat;
+        }
+
+        .nov {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/vALwH8F.jpg') center no-repeat;
+            background-size: cover;
+        }
+
+        .dec {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://wallpapercave.com/dwp1x/wp6690098.jpg') center no-repeat;
+        }
+
+        img {
+            height: 200px;
+        }
+    </style>
+    <title>2023 Calendar ni Marty</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="titleHolder">
+            <h1>2023 Calendar/Holiday Viewer</h1>
+            <p><b>Directions:</b> Click a holiday from the calendar below
+                to view the details for that holiday. <br> Holidays are indicated with a white border.</p>
+        </div>
+        <div class="monthsHolder">
+            <div class="month jan">
+                <div class="monthTitle">January</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="event"><a href="#newYear">1</a></td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month feb">
+                <div class="monthTitle">February</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td class="event"><a href="#edsaRevolution">25</a></td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month mar">
+                <div class="monthTitle">March</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">26</td>
+                            <td class="otherMonth">27</td>
+                            <td class="otherMonth">28</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month apr">
+                <div class="monthTitle">April</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">26</td>
+                            <td class="otherMonth">27</td>
+                            <td class="otherMonth">28</td>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td class="event"><a href="#maundyThursday">6</a></td>
+                            <td class="event"><a href="#goodFriday">7</a></td>
+                            <td class="event"><a href="#blackSaturday">8</a></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td class="event"><a href="#arawNgKagitingan">10</a></td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                            <td class="otherMonth">5</td>
+                            <td class="otherMonth">6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month may">
+                <div class="monthTitle">May</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">30</td>
+                            <td class="event"><a href="#laborDay">1</a></td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month jun">
+                <div class="monthTitle">June</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">28</td>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td class="event"><a href="#independenceDay">12</a></td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                        </tr>
+                        <tr>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td class="otherMonth">1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month jul">
+                <div class="monthTitle">July</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">25</td>
+                            <td class="otherMonth">26</td>
+                            <td class="otherMonth">27</td>
+                            <td class="otherMonth">28</td>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                        </tr>
+                        <tr>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                            <td class="otherMonth">5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month aug">
+                <div class="monthTitle">August</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                        </tr>
+                        <tr>
+                            <td>20</td>
+                            <td class="event"><a href="#ninoyAquinoDay">21</a></td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                        </tr>
+                        <tr>
+                            <td>27</td>
+                            <td class="event"><a href="#nationalHeroesDay">28</a></td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month sep">
+                <div class="monthTitle">September</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">27</td>
+                            <td class="otherMonth">28</td>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                        </tr>
+                        <tr>
+
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month oct">
+                <div class="monthTitle">October</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month nov">
+                <div class="monthTitle">November</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td class="otherMonth">31</td>
+                            <td class="event"><a href="#allSaintsDay">1</a></td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td class="event"><a href="#bonifacioDay">27</a></td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="month dec">
+                <div class="monthTitle">December</div>
+                <table class="tg">
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="otherMonth">26</td>
+                            <td class="otherMonth">27</td>
+                            <td class="otherMonth">28</td>
+                            <td class="otherMonth">29</td>
+                            <td class="otherMonth">30</td>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td class="event"><a href="#immaculate">8</a></td>
+                            <td>9</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                        </tr>
+                        <tr>
+                            <td>24</td>
+                            <td class="event"><a href="#christmas">25</a></td>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td class="event"><a href="#rizalDay">30</a></td>
+                        </tr>
+                        <tr>
+                            <td>31</td>
+                            <td class="otherMonth">1</td>
+                            <td class="otherMonth">2</td>
+                            <td class="otherMonth">3</td>
+                            <td class="otherMonth">4</td>
+                            <td class="otherMonth">5</td>
+                            <td class="otherMonth">6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="contentHolder">
+            <div class="eventHolder">
+                <dialog class="eventDialog" id="newYear">
+                    <img src="https://media.tenor.com/5cL5dJhCvnkAAAAC/feliz-2022.gif" alt="happy new year">
+                    <h2>January 1 - Happy New Year</h2>
+                    <p>New Year is the time or day at which a new calendar year begins and the calendar's
+                        year count increments by one. Many cultures celebrate the event in some manner.
+                        In the Gregorian calendar, the most widely used calendar system today, New Year
+                        occurs on January 1 (New Year's Day, preceded by New Year's Eve). This was also the
+                        first day of the year in the original Julian calendar and the Roman calendar
+                        (after 153 BC)</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="edsaRevolution">
+                    <img src="https://media.tenor.com/jUYQPc0qBC8AAAAC/fight-anniversary.gif" alt="edsa people power">
+                    <h2>February 25 - EDSA People Power Revolution Anniversary</h2>
+                    <p>The People Power Revolution, also known as the EDSA Revolution or the February Revolution,
+                        was a series of popular demonstrations in the Philippines, mostly in Metro Manila,
+                        from February 22 to 25, 1986. There was a sustained campaign of civil resistance against regime
+                        violence and electoral fraud. The nonviolent revolution led to the departure of Ferdinand
+                        Marcos,
+                        the end of his 20-year dictatorship and the restoration of democracy in the Philippines.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="maundyThursday">
+                    <img src="https://media.tenor.com/yQEHUC28g-EAAAAC/maundy-thursday-holy-thursday.gif"
+                        alt="Maundy Thursday">
+                    <h2>April 6 - Maundy Thursday</h2>
+                    <p>Maundy Thursday or Holy Thursday (also known as Great and Holy Thursday, Holy and Great Thursday,
+                        Covenant Thursday,
+                        Sheer Thursday, and Thursday of Mysteries, among other names) is the day during Holy Week that
+                        commemorates
+                        the Washing of the Feet (Maundy) and Last Supper of Jesus Christ with the Apostles, as described
+                        in the
+                        canonical gospels.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="goodFriday">
+                    <img src="https://media.tenor.com/sgkPDzl-vv8AAAAC/good-friday-paschal-triduum.gif"
+                        alt="good friday">
+                    <h2>April 7 - Good Friday</h2>
+                    <p>Good Friday is a Christian holiday commemorating the crucifixion of Jesus and his death at
+                        Calvary.
+                        It is observed during Holy Week as part of the Paschal Triduum. It is also known as Holy Friday,
+                        Great Friday, Great and Holy Friday (also Holy and Great Friday), and Black Friday.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="blackSaturday">
+                    <img src="https://media.tenor.com/DBg6yvvwUgMAAAAd/sabado-de-gloria-black-saturday.gif"
+                        alt="black saturday">
+                    <h2>April 8 - Black Saturday</h2>
+                    <p>Holy Saturday (Latin: Sabbatum Sanctum), also known as Great and Holy Saturday (also Holy and
+                        Great Saturday),
+                        the Great Sabbath, Hallelujah Saturday (in Portugal and Brazil), Saturday of the Glory, Sabado
+                        de Gloria, and
+                        Black Saturday or Easter Eve, and called "Joyous Saturday", "the Saturday of Light", and "Mega
+                        Sabbatun"
+                        among Coptic Christians, is the final day of Holy Week, between Good Friday and Easter Sunday,
+                        when Christians
+                        prepare for the latter.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="arawNgKagitingan">
+                    <img src="https://media.tenor.com/yIPy-KVyDCoAAAAd/araw-ng-kagitingan-kagitinga.gif"
+                        alt="araw ng kagitingan">
+                    <h2>April 10 - Araw ng Kagitingan</h2>
+                    <p>The Day of Valor, officially known as Araw ng Kagitingan, is a national observance in the
+                        Philippines which
+                        commemorates the fall of Bataan to Japanese troops during World War II. It falls every April 9,
+                        although in 2009,
+                        its celebration was moved to April 6 to avoid it from coinciding with Maundy Thursday.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="laborDay">
+                    <img src="https://media.tenor.com/LnQHcVhUzv4AAAAC/labor-day-weekend-happy-labor-day.gif"
+                        alt="labor day">
+                    <h2> May 1 - Labor Day</h2>
+                    <p>Philippines Labor Day is celebrated annually on May 1 to celebrate hardworking Filipinos across
+                        the country. In Filipino,
+                        it is known as 'Araw ng mga Manggagawa'. People in the Philippines relax and spend the day with
+                        their family and friends. </p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="independenceDay">
+                    <img src="https://media.tenor.com/tD2dH0tN0f0AAAAC/araw-ng-kalayaan-happy-independence-day.gif"
+                        alt="independence day">
+                    <h2>June 12 - Independence Day</h2>
+                    <p>Independence Day (Filipino: Araw ng Kasarinlán; also known as Araw ng Kalayaan, "Day of Freedom")
+                        is an
+                        annual national holiday in the Philippines observed on June 12,
+                        commemorating the declaration of Philippine independence from Spain in 1898.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="ninoyAquinoDay">
+                    <img src="https://media.tenor.com/r89UMyGOEtgAAAAd/araw-ng-kabayanihan-ni-ninoy-aquino-ninoy-aquino-day.gif"
+                        alt="ninoy aquino day">
+                    <h2>August 21 - Ninoy Aquino Day</h2>
+                    <p>Ninoy Aquino Day is a national non-working holiday in the Philippines observed annually on August
+                        21 commemorating
+                        the assassination of Senator Benigno "Ninoy" Aquino Jr. He was the husband of Corazon Aquino,
+                        who later became
+                        Philippine President; His assassination led to the downfall of the dictator and kleptocrat
+                        president of the
+                        Philippines Ferdinand Marcos on February 25, 1986, through the People Power Revolution. In 2004,
+                        the
+                        commemoration ceremony for the holiday was held and events were attended by presidents Gloria
+                        Macapagal
+                        Arroyo and Fidel V. Ramos.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="nationalHeroesDay">
+                    <img src="https://media.tenor.com/RO5sCCYZG4cAAAAd/hay-naku-its-not-a-competition.gif"
+                        alt="national heroes day">
+                    <h2>August 28 - National Heroes Day</h2>
+                    <p>National Heroes Day (Filipino: Pambansang Araw ng mga Bayani) is a
+                        holiday in the Philippines dedicated to Filipino heroes. It is a public holiday in the
+                        Philippines.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="allSaintsDay">
+                    <img src="https://media.tenor.com/SWdQ-10B5lIAAAAC/all-saints-day-all-hallows-day.gif"
+                        alt="all saints day">
+                    <h2>November 1 - All Saints' Day</h2>
+                    <p>All Saints' Day, also known as All Hallows' Day, the Feast of All Saints, the Feast of All
+                        Hallows,
+                        the Solemnity of All Saints, and Hallowmas, is a Christian solemnity celebrated in honour of all
+                        the saints of the church, whether they are known or unknown.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="bonifacioDay">
+                    <img src="https://media.tenor.com/gW7xEdGOsvoAAAAd/bonifacio-bonifacio-day.gif" alt="bonifacio day">
+                    <h2>November 27 - Bonifacio Day</h2>
+                    <p>Bonifacio Day is a national holiday in the Philippines,
+                        commemorating Andrés Bonifacio, one of the country's national heroes.
+                        He was the founder and eventual Supremo of the Katipunan, a secret society
+                        that triggered the Philippine Revolution of 1896 against the Spanish Empire.
+                        It is celebrated every November 30, the birth anniversary of Bonifacio.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="immaculate">
+                    <img src="https://media.tenor.com/gG3lQMqt6VMAAAAd/immaculate-concepcion-happy-fiesta-immaculate-conception.gif"
+                        alt="mama mary">
+                    <h2>December 8 - Feast of the Immaculate Conception of Mary</h2>
+                    <p>The Solemnity of the Immaculate Conception, also called Immaculate Conception Day, celebrates the
+                        sinless lifespan
+                        and Immaculate Conception of the Blessed Virgin Mary on 8 December, nine months before the feast
+                        of the Nativity of
+                        Mary, celebrated on 8 September. It is one of the most important Marian feasts in the liturgical
+                        calendar of the
+                        Roman Catholic Church celebrated worldwide.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="christmas">
+                    <img src="https://media.tenor.com/TaaGg0_2M2gAAAAC/dinosally-merry-christmas.gif" alt="christmas">
+                    <h2>December 25 - Christmas Day</h2>
+                    <p>Christmas is an annual festival commemorating the birth of Jesus Christ, observed primarily on
+                        December 25
+                        as a religious and cultural celebration among billions of people around the world.
+                        A feast central to the Christian liturgical year, it is preceded by the season of Advent or the
+                        Nativity Fast and initiates the season of Christmastide, which historically in the West lasts
+                        twelve
+                        days and culminates on Twelfth Night. Christmas Day is a public holiday in many countries, is
+                        celebrated religiously by a majority of Christians, as well as culturally by many
+                        non-Christians,
+                        and forms an integral part of the holiday season organized around it.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+                <dialog class="eventDialog" id="rizalDay">
+                    <img src="https://media.tenor.com/dt5Pdq4A9VsAAAAd/rizal-rizal-day.gif" alt="rizal day">
+                    <h2>December 30 - Rizal Day</h2>
+                    <p>Rizal Day (Spanish: Día de Rizal, Filipino: Araw ni Rizal; Tagalog: [ri'sal]) is a Philippine
+                        national
+                        holiday commemorating life and works of José Rizal, a national hero of the Philippines. It is
+                        celebrated
+                        every December 30, the anniversary of Rizal's 1896 execution at Bagumbayan (present-day Rizal
+                        Park) in Manila.</p>
+                    <a href="#!">Close</a>
+                </dialog>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
